@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/topic_order_header">
+
+        <EditTextPreference
+            app:key="@string/topic_key"
+            app:title="@string/topic"
+            app:defaultValue="@string/search_debates_default"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="@string/order_default"
+            app:entries="@array/order_entries"
+            app:entryValues="@array/order_values"
+            app:key="@string/order_key"
+            app:title="@string/order"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

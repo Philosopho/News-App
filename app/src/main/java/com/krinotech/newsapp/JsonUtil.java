@@ -28,23 +28,14 @@ class JsonUtil {
                 news = new ArrayList<>();
                 for(int index = 0; index < jsonArray.length(); index++) {
                     JSONObject objectFromArray = jsonArray.getJSONObject(index);
+
                     String sectionName = objectFromArray.getString(SECTION_NAME_PRIMITIVE);
                     String webTitle = objectFromArray.getString(WEB_TITLE_PRIMITIVE);
                     String date = objectFromArray.getString(WEB_PUBLICATION_DATE_PRIMITIVE);
                     String urlToStory = objectFromArray.getString(WEB_URL_PRIMITIVE);
                     JSONArray referencesArray = objectFromArray.getJSONArray(REFERENCES_ARRAY);
-                    String author;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for(int index2 = 0; index2 < referencesArray.length(); index2++) {
-                        String authorFromArray = referencesArray
-                                .getJSONObject(index2)
-                                .getString(AUTHOR_NAME_PRIMITIVE);
-                        if(index2 != 0 && !authorFromArray.isEmpty()) {
-                            stringBuilder.append(", ");
-                        }
-                        stringBuilder.append(authorFromArray);
-                    }
-                    author = stringBuilder.toString();
+                    String author = getAuthor(referencesArray);
+                    
                     news.add(new News(webTitle, sectionName, author, date, urlToStory));
                 }
             } catch (JSONException e) {
@@ -52,5 +43,21 @@ class JsonUtil {
             }
         }
         return news;
+    }
+
+    private static String getAuthor(JSONArray referencesArray) throws JSONException {
+        String author;
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int index2 = 0; index2 < referencesArray.length(); index2++) {
+            String authorFromArray = referencesArray
+                    .getJSONObject(index2)
+                    .getString(AUTHOR_NAME_PRIMITIVE);
+            if(index2 != 0 && !authorFromArray.isEmpty()) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(authorFromArray);
+        }
+        author = stringBuilder.toString();
+        return author;
     }
 }

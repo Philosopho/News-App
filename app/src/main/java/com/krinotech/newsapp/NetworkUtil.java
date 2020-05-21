@@ -19,15 +19,17 @@ public class NetworkUtil {
     private static final String API_KEY_VALUE = "test";
     private static final String SEARCH_PARAM = "q";
     private static final String API_KEY_PARAM = "api-key";
+    private static final String ORDER_BY_PARAM = "order-by";
     private static final String SHOW_REFERENCES_PARAM = "show-references";
     private static final String AUTHOR_QUERY = "author";
     private static final String GET_REQUEST = "GET";
 
 
-    public static URL search(String searchQuery) {
+    public static URL search(String searchQuery, String orderBy) {
         Uri uri = Uri.parse(SEARCH_URL)
                 .buildUpon()
                 .appendQueryParameter(SEARCH_PARAM, searchQuery)
+                .appendQueryParameter(ORDER_BY_PARAM, orderBy)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
                 .appendQueryParameter(SHOW_REFERENCES_PARAM, AUTHOR_QUERY)
                 .build();
@@ -40,14 +42,14 @@ public class NetworkUtil {
         return null;
     }
 
-    public static List<News> getSearchResults(String search) {
+    public static List<News> getSearchResults(String search, String orderBy) {
         List<News> news = null;
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {
             urlConnection =
                     (HttpURLConnection) NetworkUtil
-                            .search(search)
+                            .search(search, orderBy)
                             .openConnection();
             urlConnection.setRequestMethod(GET_REQUEST);
             urlConnection.setReadTimeout(10000);

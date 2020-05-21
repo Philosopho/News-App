@@ -1,0 +1,14 @@
+<resources>
+    <!-- Order By Preference -->
+    <string-array name="order_entries">
+        <item>Newest</item>
+        <item>Oldest</item>
+        <item>Relevance</item>
+    </string-array>
+
+    <string-array name="order_values">
+        <item>newest</item>
+        <item>oldest</item>
+        <item>relevance</item>
+    </string-array>
+</resources>
