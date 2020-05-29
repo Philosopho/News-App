@@ -9,13 +9,15 @@ import java.util.List;
 
 class JsonUtil {
     private static final String RESULTS_ARRAY = "results";
-    private static final String REFERENCES_ARRAY = "references";
+    private static final String TAGS_ARRAY = "tags";
     private static final String SECTION_NAME_PRIMITIVE = "sectionName";
     private static final String WEB_TITLE_PRIMITIVE = "webTitle";
     private static final String WEB_PUBLICATION_DATE_PRIMITIVE = "webPublicationDate";
     private static final String WEB_URL_PRIMITIVE = "webUrl";
     private static final String RESPONSE_OBJECT = "response";
-    private static final String AUTHOR_NAME_PRIMITIVE = "author";
+    private static final String TYPE_PRIMITIVE = "type";
+
+    private static final String CONTRIBUTOR_VALUE = "contributor";
 
 
     public static List<News> search(String jsonResponse) {
@@ -33,7 +35,7 @@ class JsonUtil {
                     String webTitle = objectFromArray.optString(WEB_TITLE_PRIMITIVE);
                     String date = objectFromArray.optString(WEB_PUBLICATION_DATE_PRIMITIVE);
                     String urlToStory = objectFromArray.optString(WEB_URL_PRIMITIVE);
-                    JSONArray referencesArray = objectFromArray.getJSONArray(REFERENCES_ARRAY);
+                    JSONArray referencesArray = objectFromArray.getJSONArray(TAGS_ARRAY);
                     String author = getAuthor(referencesArray);
 
                     news.add(new News(webTitle, sectionName, author, date, urlToStory));
@@ -49,13 +51,18 @@ class JsonUtil {
         String author;
         StringBuilder stringBuilder = new StringBuilder();
         for(int index = 0; index < referencesArray.length(); index++) {
-            String authorFromArray = referencesArray
-                    .getJSONObject(index)
-                    .optString(AUTHOR_NAME_PRIMITIVE);
-            if(index != 0 && !authorFromArray.isEmpty()) {
-                stringBuilder.append(", ");
+            JSONObject tagsObject = referencesArray
+                    .getJSONObject(index);
+            if(tagsObject.has(TYPE_PRIMITIVE)) {
+                if(CONTRIBUTOR_VALUE.equals(tagsObject.optString(TYPE_PRIMITIVE))) {
+                    String authorFromArray = tagsObject
+                            .optString(WEB_TITLE_PRIMITIVE);
+                    if(index != 0 && !authorFromArray.isEmpty()) {
+                        stringBuilder.append(", ");
+                    }
+                    stringBuilder.append(authorFromArray);
+                }
             }
-            stringBuilder.append(authorFromArray);
         }
         author = stringBuilder.toString();
         return author;

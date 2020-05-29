@@ -13,15 +13,15 @@ import java.net.URL;
 import java.util.List;
 
 public class NetworkUtil {
-    private static final String BASE_URL = "http://content.guardianapis.com/";
+    private static final String BASE_URL = "https://content.guardianapis.com/";
     private static final String SEARCH_URL = BASE_URL + "search";
 
     private static final String API_KEY_VALUE = "test";
     private static final String SEARCH_PARAM = "q";
     private static final String API_KEY_PARAM = "api-key";
     private static final String ORDER_BY_PARAM = "order-by";
-    private static final String SHOW_REFERENCES_PARAM = "show-references";
-    private static final String AUTHOR_QUERY = "author";
+    private static final String SHOW_TAGS_PARAM = "show-tags";
+    private static final String CONTRIBUTOR_QUERY = "contributor";
     private static final String GET_REQUEST = "GET";
 
 
@@ -31,7 +31,7 @@ public class NetworkUtil {
                 .appendQueryParameter(SEARCH_PARAM, searchQuery)
                 .appendQueryParameter(ORDER_BY_PARAM, orderBy)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
-                .appendQueryParameter(SHOW_REFERENCES_PARAM, AUTHOR_QUERY)
+                .appendQueryParameter(SHOW_TAGS_PARAM, CONTRIBUTOR_QUERY)
                 .build();
 
         try {
